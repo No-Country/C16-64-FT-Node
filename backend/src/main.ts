@@ -2,13 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { INestApplication } from '@nestjs/common';
 import * as dotenv from 'dotenv';
-import {
-  DocumentBuilder,
-  SwaggerCustomOptions,
-  SwaggerModule,
-} from '@nestjs/swagger';
-import swaggerJsdoc from 'swagger-jsdoc';
-import YAML from 'yamljs';
+import { SwaggerModule } from '@nestjs/swagger';
 dotenv.config();
 
 class ServerInit {
