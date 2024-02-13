@@ -9,7 +9,6 @@ import {
 } from '@nestjs/swagger';
 import swaggerJsdoc from 'swagger-jsdoc';
 import YAML from 'yamljs';
-import { patito } from 'example';
 dotenv.config();
 
 class ServerInit {
