@@ -9,3 +9,5 @@ export interface UserSesion {
   username: string;
   password: string;
 }
+
+export type typeExpenses = 'INCOME' | 'EXPENDITURE';

@@ -7,27 +7,42 @@ import {
   PrimaryKey,
   CreatedAt,
   UpdatedAt,
+  HasMany,
+  HasOne,
+  AllowNull,
+  Unique,
 } from 'sequelize-typescript';
+import { Expenses } from './expenses.entity';
+import { Profile } from './profile.entity';
+
+export interface UserAtrributes {
+  username: string;
+  password: string;
+  phone: string;
+}
 
 @Table
-export class User extends Model {
+export class User extends Model implements UserAtrributes {
   @PrimaryKey
   @AutoIncrement
-  @Column({ allowNull: false, type: DataType.STRING })
-  id: string;
+  @Column({ allowNull: false, unique: true, type: DataType.INTEGER })
+  id: number;
 
+  @AllowNull
+  @Unique
   @Column({ allowNull: false, type: DataType.STRING })
   username: string;
 
   @Column({ allowNull: false, type: DataType.STRING })
   password: string;
 
+  @Unique
   @Column({ allowNull: false, type: DataType.STRING })
   phone: string;
 
-  @CreatedAt
-  creationDate: Date;
+  @HasOne(() => Profile)
+  profile: Profile;
 
-  @UpdatedAt
-  updatedOn: Date;
+  @HasMany(() => Expenses)
+  expenses: Expenses[];
 }
