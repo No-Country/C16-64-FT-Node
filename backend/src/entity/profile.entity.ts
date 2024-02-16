@@ -10,12 +10,13 @@ import {
   AutoIncrement,
   BelongsTo,
   ForeignKey,
+  Unique,
 } from 'sequelize-typescript';
-import { typeExpenses } from 'src/types/types';
 import { User } from './user.entity';
+import { ProfileAttributes } from 'src/types/form.types.';
 
 @Table({ timestamps: false })
-export class Profile extends Model {
+export class Profile extends Model implements ProfileAttributes {
   @PrimaryKey
   @AllowNull
   // @AutoIncrement
@@ -31,19 +32,12 @@ export class Profile extends Model {
   @Column({ allowNull: false, type: DataType.STRING })
   lastname: string;
 
-  @Column({
-    allowNull: false,
-    type: DataType.STRING,
-    unique: true,
-    validate: { isEmail: true },
-  })
-  mail: string;
-
   @Column({ type: DataType.STRING })
   image: string;
 
-  @Column({ type: DataType.TEXT })
-  typeCategory: typeExpenses;
+  @Unique
+  @Column({ allowNull: false, type: DataType.STRING })
+  phone: string;
 
   @ForeignKey(() => User)
   @Column({ field: 'userId' })

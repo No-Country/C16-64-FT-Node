@@ -14,15 +14,10 @@ import {
 } from 'sequelize-typescript';
 import { Expenses } from './expenses.entity';
 import { Profile } from './profile.entity';
-
-export interface UserAtrributes {
-  username: string;
-  password: string;
-  phone: string;
-}
+import { UserAttributes } from 'src/types/form.types.';
 
 @Table
-export class User extends Model implements UserAtrributes {
+export class User extends Model implements UserAttributes {
   @PrimaryKey
   @AutoIncrement
   @Column({ allowNull: false, unique: true, type: DataType.INTEGER })
@@ -36,9 +31,13 @@ export class User extends Model implements UserAtrributes {
   @Column({ allowNull: false, type: DataType.STRING })
   password: string;
 
-  @Unique
-  @Column({ allowNull: false, type: DataType.STRING })
-  phone: string;
+  @Column({
+    allowNull: false,
+    type: DataType.STRING,
+    unique: true,
+    validate: { isEmail: true },
+  })
+  mail: string;
 
   @HasOne(() => Profile)
   profile: Profile;

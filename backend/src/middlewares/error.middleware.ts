@@ -5,11 +5,15 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
+import {} from 'sequelize-typescript';
 import ServerError from 'src/utils/serverError';
 
 @Catch()
 export class ErrorMiddleware implements ExceptionFilter {
   catch(exception: ServerError, host: ArgumentsHost): void {
+    // if (exception instanceof Sequelize.Error) {
+
+    // }
     const ctx = host.switchToHttp();
     const res: Response = ctx.getResponse();
     const statusCode: string = exception.status

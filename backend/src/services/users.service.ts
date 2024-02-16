@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { UserSesion } from 'src/types/types';
 import * as bcrypt from 'bcrypt';
 import { User } from 'src/entity/user.entity';
 import ServerError from 'src/utils/serverError';
+import { UserAttributes } from 'src/types/form.types.';
 
 @Injectable()
 export class UsersService {
@@ -15,12 +15,9 @@ export class UsersService {
     return result;
   }
 
-  public async create(data: UserSesion) {
+  public async create({ username, ...data }: UserAttributes) {
     const password = await this.hashingPassword(data.password);
-    const createUser = await User.create({
-      username: data.username,
-      password,
-    });
+    const createUser = await User.create({ username, password, ...data });
     return createUser;
   }
 
