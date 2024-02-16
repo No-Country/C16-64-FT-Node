@@ -5,15 +5,11 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
-import {} from 'sequelize-typescript';
 import ServerError from 'src/utils/serverError';
 
 @Catch()
 export class ErrorMiddleware implements ExceptionFilter {
   catch(exception: ServerError, host: ArgumentsHost): void {
-    // if (exception instanceof Sequelize.Error) {
-
-    // }
     const ctx = host.switchToHttp();
     const res: Response = ctx.getResponse();
     const statusCode: string = exception.status
@@ -25,11 +21,24 @@ export class ErrorMiddleware implements ExceptionFilter {
     const status: number = exception.status
       ? exception.status
       : HttpStatus.INTERNAL_SERVER_ERROR;
-
-    res.status(status).json({
-      statusCode,
-      status,
-      message,
-    });
+    if (exception.name === 'SequelizeUniqueConstraintError') {
+      res.status(status).json({
+        statusCode,
+        status,
+        message: exception['parent'].detail,
+      });
+    } else if (exception.name === 'SequelizeValidationError') {
+      res.status(status).json({
+        statusCode,
+        status,
+        message: exception['errors'][0].message,
+      });
+    } else {
+      res.status(status).json({
+        statusCode,
+        status,
+        message,
+      });
+    }
   }
 }
