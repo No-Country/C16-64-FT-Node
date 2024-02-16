@@ -140,8 +140,10 @@ const { title, meta_title, description, image, noindex, canonical } =
       <div class="hidden md:flex">
         <Sidebar />
       </div>
-      <slot />
+      <div class="w-full">
+        <slot />
+        <Footer />
+      </div>
     </main>
-    <Footer />
   </body>
 </html>
