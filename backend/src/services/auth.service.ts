@@ -9,20 +9,22 @@ config();
 @Injectable()
 export class AuthService {
   private jwtServices: JwtService;
-
+  private secret: string = process.env.SECRET_VALUE;
   constructor(jwtServices: JwtService) {
     this.jwtServices = jwtServices;
   }
 
   public async singIn({ username, password }: UserSesion) {
-    const user = await User.findOne({ where: { username } });
+    const user = await User.findOne({
+      where: { username },
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
+    });
     if (!user) throw new ServerError('Usuario no existente', 'NOT_FOUND');
     const pass = await this.decryptPassword(password, user.password);
     if (!pass) throw new ServerError('Contraseña Incorrecta', 'NOT_FOUND');
-    const { password: _password, ...data } = user;
-    return await this.jwtServices.sign(data, {
-      secret: process.env.SECRET_VALUE,
-    });
+    const { password: _password, ...data } = user.dataValues;
+    const token = this.jwtServices.sign(data, { secret: this.secret });
+    return { ...data, token };
   }
 
   public async decryptPassword(password: string, compare: string) {

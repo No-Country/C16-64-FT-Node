@@ -15,6 +15,11 @@ export class AuthenticateMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
     try {
       const { authorization } = req.headers;
+      if (!authorization)
+        throw new ServerError(
+          'Error, Authorization value undefined',
+          'NOT_FOUND',
+        );
       const token = authorization.split('Bearer ').at(-1);
       if (!this.secret || !token)
         throw new ServerError('Error, Secret value undefined', 'NOT_FOUND');
