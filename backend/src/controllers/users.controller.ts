@@ -5,11 +5,19 @@ import {
   Get,
   HttpStatus,
   Next,
+  Param,
   Post,
   Req,
   Res,
 } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { NextFunction, Request, Response } from 'express';
 import { UsersService } from 'src/services';
 import { CreateUserDto } from 'src/swagger/create-user.dto';
@@ -24,13 +32,33 @@ export class UsersController {
     this.UsersService = UsersService;
   }
 
-  @Get() async findUsers(@Res() res: Response) {
-    const result = await this.UsersService.find();
+  @ApiBearerAuth()
+  @ApiResponse({ status: 201, description: 'Lista de Usuarios con éxito' })
+  @ApiResponse({
+    status: 400,
+    description: 'Lista de Usuarios no pudo ser encontrado',
+  })
+  @Get()
+  async findUsers(@Res() res: Response) {
+    const result = await this.UsersService.findAll();
+    res.status(HttpStatus.ACCEPTED).json(result);
+  }
+
+  @ApiBearerAuth()
+  @ApiParam({ name: 'id', description: 'user ID', type: 'string' })
+  @ApiResponse({ status: 201, description: 'Lista de Usuarios con éxito' })
+  @ApiResponse({
+    status: 400,
+    description: 'Lista de Usuarios no pudo ser encontrado',
+  })
+  @Get('/:id')
+  async findUser(@Param('id') id: number, @Res() res: Response) {
+    const result = await this.UsersService.find(+id);
     res.status(HttpStatus.ACCEPTED).json(result);
   }
 
   @ApiBody({ type: CreateUserDto })
-  @ApiOperation({ summary: 'Crear Usuarios' })
+  @ApiOperation({ summary: 'Register Users' })
   @ApiResponse({ status: 201, description: 'Usuario creado con éxito' })
   @ApiResponse({ status: 400, description: 'Usuario no pudo ser creado' })
   @Post()

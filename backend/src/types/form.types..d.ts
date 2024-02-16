@@ -10,3 +10,8 @@ export interface ProfileAttributes {
   lastname: string;
   image?: string;
 }
+
+export interface AuthAtributes {
+  username: string;
+  password: string;
+}

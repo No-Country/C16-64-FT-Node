@@ -3,6 +3,7 @@ import * as bcrypt from 'bcrypt';
 import { User } from 'src/entity/user.entity';
 import ServerError from 'src/utils/serverError';
 import { UserAttributes } from 'src/types/form.types.';
+import { Profile } from 'src/entity';
 
 @Injectable()
 export class UsersService {
@@ -10,13 +11,25 @@ export class UsersService {
 
   constructor() {}
 
-  public async find() {
+  public async findAll() {
     const result = await User.findAll();
     return result;
   }
 
-  public async create({ username, ...data }: UserAttributes) {
-    const password = await this.hashingPassword(data.password);
+  public async find(id: User['id']) {
+    if (!id) throw new ServerError('Opss!, Invalid ID', 'BAD_REQUEST');
+    const user = await User.findOne({
+      where: { id },
+      attributes: { exclude: ['password'] },
+      include: [{ model: Profile, attributes: ['name', 'lastname'] }],
+    });
+    if (!user)
+      throw new ServerError('No se pudo encontrar al usuario', 'NOT_FOUND');
+    return user;
+  }
+
+  public async create({ username, password: pass, ...data }: UserAttributes) {
+    const password = await this.hashingPassword(pass);
     const createUser = await User.create({ username, password, ...data });
     return createUser;
   }

@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { INestApplication } from '@nestjs/common';
 import * as dotenv from 'dotenv';
-import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
+import { SwaggerInit } from './swagger';
 dotenv.config();
 
 class ServerInit {
@@ -11,29 +11,15 @@ class ServerInit {
   private PREFIX: string = 'api/v1';
   private app: INestApplication;
 
-  public swaggerComfig: Omit<OpenAPIObject, 'paths'> = new DocumentBuilder()
-    .setTitle('Finance Manager API')
-    .setDescription('API de gestor de finanzas')
-    .setVersion('3.0')
-    .addTag('users')
-    .build();
-
   constructor() {
     this.bootstrap();
-    this.middlewares();
   }
-  private middlewares() {}
 
   public async bootstrap() {
     this.app = await NestFactory.create(AppModule, { cors: { origin: '*' } });
     this.app.setGlobalPrefix(this.PREFIX);
-    // const swaggerDocument = await import('../swagger.json');
-    const swaggerDocument = SwaggerModule.createDocument(
-      this.app,
-      this.swaggerComfig,
-    );
-    SwaggerModule.setup('api-docs', this.app, swaggerDocument);
     this.app.listen(this.PORT);
+    new SwaggerInit(this.app);
     if (this.PORT && this.HOST) {
       const server = `http://${this.HOST}:${this.PORT}`;
       console.log(`🚀 Server deployed at: ${server}`);
@@ -42,4 +28,4 @@ class ServerInit {
   }
 }
 
-const server = new ServerInit();
+new ServerInit();
