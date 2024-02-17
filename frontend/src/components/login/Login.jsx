@@ -1,48 +1,93 @@
+import { log } from "node_modules/astro/dist/core/logger/core";
 import React, { useState } from "react";
 
 const Login = () => {
-  const [userId, setUserID] = useState();
+  const [user, setuser] = useState();
   const [password, setPassword] = useState();
-  const [userErr, setUserErr] = useState();
-  const [passErr, setPassErr] = useState();
 
-  const userNotValid = "El usuario no es válido";
+  const [userErr, setuserErr] = useState();
+  const [passErr, setPassErr] = useState();
+  const [loginErr, setLoginErr] = useState();
+
+  const userNotValid = "El user no es válido";
+  const userMandatory = "El campo user es obligatorio";
+  const passMandatory = "El campo password es obligatorio";
   const passNotValid = "La password no es válida";
 
-  const validarUsuario = (usuarioID) => {
-    const userRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$";
+  const checkValiduser = () => {
+    const userRegex = /^[a-z0-9_-]{3,15}$/;
 
-    if (!usuarioID) {
+    setuserErr("");
+
+    if (typeof user === "undefined" || user == "") {
+      setuserErr(userMandatory);
       return false;
-    } else {
-      return usuarioID.match(userRegex);
+    } else if (!userRegex.test(user)) {
+      setuserErr(userNotValid);
+      return false;
     }
+
+    return true;
   };
 
-  const validarPassword = (password) => {
+  const checkValidPwd = () => {
+    setPassErr("");
+
     const passRegEx =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return passRegEx.test(password);
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
+
+    console.log("valid password ", passRegEx.test(password));
+
+    if (typeof password === "undefined" || password == "") {
+      setPassErr(passMandatory);
+      return false;
+    } else if (!passRegEx.test(password)) {
+      setPassErr(passNotValid);
+      return false;
+    }
+    return true;
   };
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    if (!validarUsuario(userId)) {
-      setUserErr(userNotValid);
-    } else {
-      setUserErr(false);
-    }
+    let validauser = checkValiduser();
 
-    if (!validarPassword(password)) {
-      setPassErr(passNotValid);
-    } else {
-      setPassErr(false);
+    let validPassWord = checkValidPwd();
+
+    console.log(
+      `Campos valido: user: ${validauser} \n password: ${validPassWord}`,
+    );
+
+    if (validPassWord && validauser) {
+      console.log("Login correcto");
+
+      const urlLogin =
+        "https://backend-finance-managegr.onrender.com/api/v1/auth/login";
+
+      let data = {
+        username: user,
+        password: password,
+      };
+
+      fetch(urlLogin, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+      })
+        .then((resp) => resp.json())
+        .then((response) => {
+          console.log("Respuesta ", response);
+
+          if (response.status != 200) {
+            setLoginErr(response.message);
+          }
+        })
+        .catch((err) => console.log(err));
     }
   }
-
-  const handleUserId = (event) => {
-    setUserID(event.target.value);
+  const handleuser = (event) => {
+    setuser(event.target.value);
   };
 
   const handlePassword = (event) => {
@@ -56,24 +101,24 @@ const Login = () => {
         <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
           <h1 className="text-2xl font-medium text-black">¡Bienvenido! </h1>
 
-          <p> Lorem ipsum is simply </p>
+          <p className="text-red-500 text-sm"> {loginErr} </p>
 
           <div className="mb-4">
-            <label htmlFor="" className="block text-sm ">
+            <label htmlFor="" className="block text-sm text-black">
               {" "}
-              Email / Usuario{" "}
+              Usuario{" "}
             </label>
             <input
               className="w-full p-2 border text-black"
               type="text"
-              placeholder="Ingrese su email/ usuario"
-              onChange={handleUserId}
+              placeholder="Ingrese user"
+              onChange={handleuser}
             />
             <p className="text-red-500 text-sm"> {userErr} </p>
           </div>
 
           <div className="mb-4">
-            <label htmlFor="" className="text-sm">
+            <label htmlFor="" className="text-sm text-black">
               {" "}
               Contraseña{" "}
             </label>
