@@ -14,7 +14,7 @@ const Register = () => {
   const [userNameError, setuserNameError] = useState();
   const [passError, setPassError] = useState();
   const [matchPassError, setmatchPassError] = useState();
-  const [isValidLogin, setValidLogin] = useState();
+  // const [isValidLogin, setValidLogin] = useState();
 
   const emailNotValid =
     "El correo introducido no está informado o no es correcto";
@@ -28,7 +28,7 @@ const Register = () => {
   const checkValirEmail = () => {
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
-    setValidLogin(true);
+    // setValidLogin(true);
 
     setEmailError(false);
 
@@ -44,7 +44,7 @@ const Register = () => {
   };
 
   const checkValidUser = () => {
-    setValidLogin(true);
+    // setValidLogin(true);
     const userRegex = /^[A-z][A-z0-9-_]{3,23}$/;
 
     setuserNameError(false);
@@ -62,7 +62,7 @@ const Register = () => {
     const passRegEx =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
 
-    setValidLogin(true);
+    // setValidLogin(true);
 
     if (typeof password === "undefined" || password == "") {
       setPassError(passNotValid);
@@ -74,7 +74,7 @@ const Register = () => {
   };
 
   const checkMathPwd = () => {
-    setValidLogin(true);
+    // setValidLogin(true);
     const passRegEx =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
@@ -101,7 +101,7 @@ const Register = () => {
     setPassError(false);
     setmatchPassError(false);
 
-    setValidLogin(true);
+    // setValidLogin(true);
 
     // Validar email
     let v1 = checkValirEmail();

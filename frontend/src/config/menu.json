@@ -1,0 +1,30 @@
+{
+  "main": [
+    {
+      "name": "Inicio",
+      "url": ""
+    },
+    {
+      "name": "Transacciones",
+      "url": "/transactions"
+    },
+    {
+      "name": "Estadisticas",
+      "url": "/statistics"
+    }
+  ],
+  "footer": [
+    {
+      "name": "Acerca de",
+      "url": "/about"
+    },
+    {
+      "name": "Contacto",
+      "url": "/contact"
+    },
+    {
+      "name": "Política de Privacidad",
+      "url": "/privacy-policy"
+    }
+  ]
+}
