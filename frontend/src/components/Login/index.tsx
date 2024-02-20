@@ -48,14 +48,12 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-300">
-      <div className="max-w-md mx-auto relative overflow-hidden z-10 bg-gray-100 p-8 rounded-lg	border border-blue-300">
+      <div className="max-w-md mx-auto relative overflow-hidden z-10 bg-gray-100 p-8 rounded-lg	border border-black">
         <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
-          <h1 className="text-2xl font-medium">¡Bienvenido! </h1>
-
-          <p> Lorem ipsum is simply </p>
+          <h1 className="text-2xl font-medium text-black">¡Bienvenido! </h1>
 
           <div className="mb-4">
-            <label htmlFor="" className="block text-sm ">
+            <label htmlFor="" className="block text-sm text-black">
               {" "}
               Email / Usuario{" "}
             </label>
@@ -67,14 +65,14 @@ const Login = () => {
             />
 
             <p
-              className={`text-red-500 text-sm  ${userErr ? "invisble" : "visible"}`}
+              className={`text-red-500 text-sm  ${userErr ? "visble" : "invisible"}`}
             >
               El usuario no es válido
             </p>
           </div>
 
           <div className="mb-4">
-            <label htmlFor="" className="text-sm">
+            <label htmlFor="" className="text-sm text-black">
               {" "}
               Contraseña{" "}
             </label>
@@ -85,31 +83,42 @@ const Login = () => {
               onChange={handlePassword}
             />
             <p
-              className={`text-red-500 text-sm  ${passErr ? "invisble" : "visible"}`}
+              className={`text-red-500 text-sm  ${passErr ? "visible" : "invisible"}`}
             >
               {" "}
               La password no es válida
             </p>
           </div>
-
-          <div>
-            <input type="checkbox" id="recodarUsuario" name="recodarUsuario" />
-            <label htmlFor="recodarUsuario"> Recuérdame </label>
+          <div className="flex justify-between items-center">
+            <div>
+              <input
+                type="checkbox"
+                id="recodarUsuario"
+                name="recodarUsuario"
+              />
+              <label htmlFor="recodarUsuario" className="text-black text-sm">
+                {" "}
+                Recuérdame{" "}
+              </label>
+            </div>
+            {/* Olvidades tu contraseña */}
+            <p className="text-black text-sm">¿Olvidaste tu contraseña? </p>
           </div>
-
-          <p>¿Olvidaste tu contraseña? </p>
-
           <button
             type="submit"
-            className="text-center bg-black text-white p-2 border rounded"
+            className="text-center bg-secondary-50 text-white p-2 border rounded"
           >
             {" "}
             Inciar Sesión{" "}
           </button>
 
-          <p>
+          <p className="text-black text-center">
             {" "}
-            ¿No tienes cuenta? <a> crear una </a>{" "}
+            ¿No tienes cuenta?{" "}
+            <a href="/register" className="font-bold">
+              {" "}
+              crear una{" "}
+            </a>{" "}
           </p>
         </form>
       </div>
