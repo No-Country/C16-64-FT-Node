@@ -15,8 +15,11 @@ export class AuthService {
   }
 
   public async singIn({ username, password }: UserSesion) {
+    const usernameOrMail = !username.includes('@')
+      ? { username }
+      : { mail: username };
     const user = await User.findOne({
-      where: { username },
+      where: { ...usernameOrMail },
       attributes: { exclude: ['createdAt', 'updatedAt'] },
     });
     if (!user) throw new ServerError('Usuario no existente', 'NOT_FOUND');
