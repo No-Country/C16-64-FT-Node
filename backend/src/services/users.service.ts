@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { User } from 'src/entity/user.entity';
-import ServerError from 'src/utils/serverError';
-import { UserAttributes } from 'src/types/form.types.';
-import { Profile } from 'src/entity';
+import { User } from '../entity/user.entity';
+import ServerError from '../utils/serverError';
+import { UserAttributes } from '../types/form.types.';
+import { Profile } from '../entity';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class UsersService {
@@ -29,9 +30,14 @@ export class UsersService {
   }
 
   public async create({ username, password: pass, ...data }: UserAttributes) {
+    const findUser = await User.findOne({
+      where: { [Op.or]: [{ username }, { mail: data.mail }] },
+    });
+    if (findUser) throw new ServerError('user already exists', 'BAD_REQUEST');
     const password = await this.hashingPassword(pass);
     const createUser = await User.create({ username, password, ...data });
     return createUser;
+    return false;
   }
 
   public async hashingPassword(password: string) {

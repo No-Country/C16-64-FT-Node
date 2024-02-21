@@ -2,7 +2,7 @@ import { Injectable, NestMiddleware } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { NextFunction, Request, Response } from 'express';
 import { config } from 'dotenv';
-import ServerError from 'src/utils/serverError';
+import ServerError from '../utils/serverError';
 config();
 
 @Injectable()

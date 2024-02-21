@@ -4,10 +4,10 @@ import {
   NestModule,
   RequestMethod,
 } from '@nestjs/common';
-import { UsersController } from 'src/controllers';
-import { UsersService } from 'src/services';
+import { UsersController } from '../controllers';
+import { UsersService } from '../services';
 import { DatabaseModule } from './database.module';
-import { AuthenticateMiddleware } from 'src/middlewares/autenthicate.middleware';
+import { AuthenticateMiddleware } from '../middlewares/autenthicate.middleware';
 
 @Module({
   imports: [DatabaseModule],

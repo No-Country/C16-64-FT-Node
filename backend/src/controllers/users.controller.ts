@@ -19,9 +19,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { NextFunction, Request, Response } from 'express';
-import { UsersService } from 'src/services';
-import { CreateUserDto } from 'src/swagger/create-user.dto';
-import { UserAttributes } from 'src/types/form.types.';
+import { UsersService } from '../services';
+import { CreateUserDto } from '../swagger/create-user.dto';
+import { UserAttributes } from '../types/form.types.';
 
 @Controller('users')
 @ApiTags('users')
@@ -71,6 +71,7 @@ export class UsersController {
       const query = await this.UsersService.create(body);
       res.status(HttpStatus.CREATED).json(query);
     } catch (error) {
+      console.log(error);
       next(error);
     }
   }

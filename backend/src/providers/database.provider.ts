@@ -1,5 +1,5 @@
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript';
-import { Category, Expenses, Profile, User } from 'src/entity';
+import { Category, Expenses, Profile, User } from '../entity';
 import { config } from 'dotenv';
 config();
 

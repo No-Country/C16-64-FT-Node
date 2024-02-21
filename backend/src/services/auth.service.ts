@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from 'src/entity';
-import { UserSesion } from 'src/types/types';
-import ServerError from 'src/utils/serverError';
+import { User } from '../entity';
+import { UserSesion } from '../types/types';
+import ServerError from '../utils/serverError';
 import * as bcrypt from 'bcrypt';
 import { config } from 'dotenv';
 config();
