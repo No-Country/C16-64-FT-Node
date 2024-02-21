@@ -5,36 +5,78 @@ const Login = () => {
   const [password, setPassword] = useState<string>("");
   const [userErr, setUserErr] = useState<boolean>(false);
   const [passErr, setPassErr] = useState<boolean>(false);
+  const [loginErr, setLoginErr] = useState<string>("");
 
-  const validarUsuario = (usuarioID: string) => {
-    const userRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$";
+  const checkValiduser = () => {
+    const userRegex = /^[a-z0-9_-]{3,15}$/;
+    setUserErr(false);
 
-    if (!usuarioID) {
+    if (typeof userId === "undefined" || userId == "") {
+      setUserErr(true);
       return false;
-    } else {
-      return usuarioID.match(userRegex);
+    } else if (!userRegex.test(userId)) {
+      setUserErr(true);
+      return false;
     }
+
+    return true;
   };
 
-  const validarPassword = (password: string) => {
+  const checkValidPwd = () => {
+    setPassErr(false);
+
     const passRegEx =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return passRegEx.test(password);
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
+
+    if (typeof password === "undefined" || password == "") {
+      setPassErr(true);
+      return false;
+    } else if (!passRegEx.test(password)) {
+      setPassErr(true);
+      return false;
+    }
+
+    return true;
   };
 
   function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
 
-    if (!validarUsuario(userId)) {
-      setUserErr(true);
-    } else {
-      setUserErr(false);
-    }
+    let validauser = checkValiduser();
+    let validarPwd = checkValidPwd();
 
-    if (!validarPassword(password)) {
-      setPassErr(true);
-    } else {
-      setPassErr(false);
+    if (validarPwd && validauser) {
+      console.log("Login correcto");
+
+      const urlLogin =
+        "https://backend-finance-managegr.onrender.com/api/v1/auth/login";
+
+      let data = {
+        username: userId,
+        password: password,
+      };
+
+      fetch(urlLogin, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+      })
+        .then((resp) => resp.json())
+        .then((response) => {
+          console.log("Respuesta ", response);
+
+          if (response.message) {
+            setLoginErr(response.message);
+            console.log("response.message > ", response.message);
+          } else {
+            localStorage.setItem("id", response.token.id);
+            localStorage.setItem("username", response.token.username);
+            localStorage.setItem("mail", response.token.mail);
+            localStorage.setItem("token", response.token.token);
+            window.location.href = "/";
+          }
+        })
+        .catch((err) => console.log(err));
     }
   }
 
@@ -52,13 +94,15 @@ const Login = () => {
         <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
           <h1 className="text-2xl font-medium text-black">¡Bienvenido! </h1>
 
+          <p className="text-red-500 text-sm"> {loginErr}</p>
+
           <div className="mb-4">
             <label htmlFor="" className="block text-sm text-black">
               {" "}
               Email / Usuario{" "}
             </label>
             <input
-              className="w-full p-2"
+              className="w-full p-2 text-black"
               type="text"
               placeholder="Ingrese su email/ usuario"
               onChange={handleUserId}
@@ -78,7 +122,7 @@ const Login = () => {
             </label>
             <input
               type="password"
-              className="w-full p-2"
+              className="w-full p-2 text-black"
               placeholder="Ingrese su contraseña"
               onChange={handlePassword}
             />
