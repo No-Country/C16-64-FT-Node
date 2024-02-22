@@ -5,8 +5,6 @@ import {
   DataType,
   AutoIncrement,
   PrimaryKey,
-  CreatedAt,
-  UpdatedAt,
   HasMany,
   HasOne,
   AllowNull,
@@ -14,7 +12,7 @@ import {
 } from 'sequelize-typescript';
 import { Expenses } from './expenses.entity';
 import { Profile } from './profile.entity';
-import { UserAttributes } from 'src/types/form.types.';
+import { UserAttributes } from '../types/form.types.';
 
 @Table
 export class User extends Model implements UserAttributes {

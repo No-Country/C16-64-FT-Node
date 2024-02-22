@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AuthAtributes } from 'src/types/form.types.';
+import { AuthAtributes } from '../types/form.types.';
 
 export class AuthDto implements AuthAtributes {
   @ApiProperty({

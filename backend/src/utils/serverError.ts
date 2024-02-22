@@ -1,5 +1,5 @@
 import { HttpStatus } from '@nestjs/common';
-import { StatusCode } from 'src/types/types';
+import { StatusCode } from '../types/types';
 
 class ServerError extends Error {
   public statusCode: StatusCode;

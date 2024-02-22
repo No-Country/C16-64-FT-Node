@@ -1,3 +1,5 @@
+import { typeExpenses } from './types';
+
 export interface UserAttributes {
   username: string;
   password: string;
@@ -14,4 +16,12 @@ export interface ProfileAttributes {
 export interface AuthAtributes {
   username: string;
   password: string;
+}
+
+export interface ExpensesAtributes {
+  amount: number;
+  description: string;
+  type: typeExpenses;
+  categoryId: number;
+  userId: number;
 }

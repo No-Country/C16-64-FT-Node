@@ -37,7 +37,6 @@ export class UsersService {
     const password = await this.hashingPassword(pass);
     const createUser = await User.create({ username, password, ...data });
     return createUser;
-    return false;
   }
 
   public async hashingPassword(password: string) {

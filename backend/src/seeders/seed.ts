@@ -1,5 +1,5 @@
-import { User } from 'src/entity';
-import { UsersService } from 'src/services';
+import { User } from '../entity';
+import { UsersService } from '../services';
 
 class InitialSeed {
   constructor() {

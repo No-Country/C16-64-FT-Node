@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { UserAttributes } from 'src/types/form.types.';
+import { UserAttributes } from '../types/form.types.';
 
 export class CreateUserDto implements UserAttributes {
   @ApiProperty({

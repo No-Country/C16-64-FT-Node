@@ -9,7 +9,7 @@ import {
   AllowNull,
   Unique,
 } from 'sequelize-typescript';
-import { typeExpenses } from 'src/types/types';
+import { typeExpenses } from '../types/types';
 import { Expenses } from './expenses.entity';
 
 @Table({ timestamps: false })

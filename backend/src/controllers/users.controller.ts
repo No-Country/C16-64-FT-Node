@@ -15,6 +15,7 @@ import {
   ApiBody,
   ApiOperation,
   ApiParam,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -33,6 +34,7 @@ export class UsersController {
   }
 
   @ApiBearerAuth()
+  @ApiQuery({ name: 'demo', required: false, example: 'true' })
   @ApiResponse({ status: 201, description: 'Lista de Usuarios con éxito' })
   @ApiResponse({
     status: 400,
@@ -71,7 +73,6 @@ export class UsersController {
       const query = await this.UsersService.create(body);
       res.status(HttpStatus.CREATED).json(query);
     } catch (error) {
-      console.log(error);
       next(error);
     }
   }

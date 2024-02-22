@@ -5,7 +5,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
-import ServerError from 'src/utils/serverError';
+import ServerError from '../utils/serverError';
 
 @Catch()
 export class ErrorMiddleware implements ExceptionFilter {

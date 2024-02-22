@@ -13,7 +13,7 @@ import {
   Unique,
 } from 'sequelize-typescript';
 import { User } from './user.entity';
-import { ProfileAttributes } from 'src/types/form.types.';
+import { ProfileAttributes } from '../types/form.types.';
 
 @Table({ timestamps: false })
 export class Profile extends Model implements ProfileAttributes {
