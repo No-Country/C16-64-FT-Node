@@ -1,6 +1,6 @@
 const CATEGORIES: Record<string, string | boolean>[] = [
   {
-    name: "Suscripciones",
+    name: "ss",
     type: "OUTCOME",
     id: "subscriptions",
   },
@@ -22,7 +22,7 @@ const CATEGORIES: Record<string, string | boolean>[] = [
   {
     name: "Juegos",
     type: "OUTCOME",
-    id: "games	",
+    id: "games",
   },
   {
     name: "Educación",
@@ -85,9 +85,9 @@ const CATEGORIES: Record<string, string | boolean>[] = [
     id: "books",
   },
   {
-    name: "Pagos",
+    name: "Ventas",
     type: "INCOME",
-    id: "finances",
+    id: "sell",
   },
   {
     name: "Regalos",
@@ -102,7 +102,7 @@ const CATEGORIES: Record<string, string | boolean>[] = [
   {
     name: "Salario",
     type: "INCOME",
-    id: "finances",
+    id: "salary",
   },
   {
     name: "Bonus",
