@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaMoneyCheckAlt } from "react-icons/fa";
 import Icon from "@/components/Icon/Index";
 
@@ -21,6 +21,12 @@ const TransactionCard: React.FC<TransactionCardProps> = ({
     year: "2-digit",
   });
 
+  const [showDetails, setShowDetails] = useState(false);
+
+  const toggleDetails = () => {
+    setShowDetails(!showDetails);
+  };
+
   return (
     <div className="transaction-card flex items-center justify-between mx-4 p-4 shadow-md rounded">
       <div className="column">
@@ -32,9 +38,14 @@ const TransactionCard: React.FC<TransactionCardProps> = ({
       </div>
       <div className="column text-lg font-bold">
         <p>{amount !== null ? `$${amount.toFixed(2)}` : "N/A"}</p>
-      </div>
-      <div className="column">
-        <p>{description}</p>
+        {showDetails ? (
+          <div>
+            <p>{description}</p>
+            <button onClick={toggleDetails}>Ocultar Detalle</button>
+          </div>
+        ) : (
+          <button onClick={toggleDetails}>Ver Detalle</button>
+        )}
       </div>
     </div>
   );
