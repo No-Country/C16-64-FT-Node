@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Next,
   Post,
+  Query,
   Req,
   Res,
 } from '@nestjs/common';
@@ -19,6 +20,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { CreateExpenseDto } from '../swagger/create-expense.dto';
+import { typeExpenses } from '../types/types';
 
 @Controller('expenses')
 @ApiTags('expenses')
@@ -29,13 +31,51 @@ export class ExpensesController {
   }
 
   @ApiQuery({ name: 'demo', required: false, example: 'true' })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: 'number',
+    example: '10',
+    description: 'quantity of records',
+  })
+  @ApiQuery({
+    name: 'offset',
+    type: 'number',
+    required: false,
+    example: '20',
+    description: 'record skips',
+  })
+  @ApiQuery({
+    name: 'type',
+    type: 'string',
+    required: false,
+    example: 'INCOME',
+    description: 'use <b>[INCOME,OUTCOME]</b>',
+  })
+  @ApiQuery({
+    name: 'date',
+    type: 'string',
+    required: false,
+    example: '2023-02-26',
+  })
   @ApiOperation({ summary: 'Show Expenses' })
   @ApiResponse({ status: 201, description: 'Usuario creado con éxito' })
   @ApiResponse({ status: 400, description: 'Usuario no pudo ser creado' })
   @Get()
-  async findExpenses(@Res() res: Response) {
+  async findExpenses(
+    @Res() res: Response,
+    @Query('type') type?: typeExpenses,
+    @Query('date') date?: string,
+    @Query('limit') limit?: number,
+    @Query('offset') offset?: number,
+  ) {
     const { id } = res.locals.userData;
-    const result = await this.ExpensesService.findAll(id);
+    const result = await this.ExpensesService.findAll(id, {
+      limit: limit ? +limit : undefined,
+      offset: offset ? +offset : undefined,
+      type,
+      date,
+    });
     res.status(HttpStatus.OK).json(result);
   }
 

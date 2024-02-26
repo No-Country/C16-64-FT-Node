@@ -11,3 +11,10 @@ export interface UserSesion {
 }
 
 export type typeExpenses = 'INCOME' | 'OUTCOME';
+
+export interface ExpensesFilter {
+  limit?: number;
+  offset?: number;
+  date?: string;
+  type?: typeExpenses;
+}
