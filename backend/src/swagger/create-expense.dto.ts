@@ -19,7 +19,7 @@ export class CreateExpenseDto implements ExpensesAtributes {
 
   @ApiProperty({
     example: 'INCOME',
-    description: 'Se puede usar <b>[INCOME, EXPENDITURE] </b> ',
+    description: 'Se puede usar <b>[INCOME, OUTCOME] </b> ',
     required: true,
   })
   type: typeExpenses;

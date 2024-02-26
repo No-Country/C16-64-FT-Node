@@ -45,7 +45,7 @@ export class Expenses extends Model implements ExpensesAtributes {
 
   @AllowNull
   @Validate({
-    isIn: { args: [['INCOME', 'EXPENDITURE']], msg: 'Type value not allowed' },
+    isIn: { args: [['INCOME', 'OUTCOME']], msg: 'Type value not allowed' },
   })
   @Column({
     type: DataType.STRING,

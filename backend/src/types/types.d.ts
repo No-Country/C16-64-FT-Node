@@ -10,4 +10,4 @@ export interface UserSesion {
   password: string;
 }
 
-export type typeExpenses = 'INCOME' | 'EXPENDITURE';
+export type typeExpenses = 'INCOME' | 'OUTCOME';
