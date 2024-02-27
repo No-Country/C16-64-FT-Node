@@ -74,39 +74,46 @@ export default function Ingreso() {
         onSubmit={(e) => e.preventDefault()}
       >
         <Tabs selectedTab={selectedTab} dispatch={dispatch} />
-        <label htmlFor="ammount">Cantidad</label>
-        <input
-          name="ammount"
-          id="ammount"
-          value={ammount}
-          onChange={(e) =>
-            dispatch({ type: "setAmmount", payload: e.target.value })
-          }
-          type="number"
-          placeholder="1000000"
-        />
-        <label htmlFor="category">Categoría</label>
-        <input
-          ref={categoryRef}
-          name="category"
-          id="category"
-          value={category}
-          onChange={(e) => e.preventDefault()}
-          type="text"
-          placeholder="Selecciona categoría"
-          onFocus={() => dispatch({ type: "openModal" })}
-          autoComplete="off"
-        />
-        <label htmlFor="description">Descripción</label>
-        <textarea
-          name="description"
-          id="description"
-          value={description}
-          onChange={(e) =>
-            dispatch({ type: "setDescription", payload: e.target.value })
-          }
-          rows={2}
-        />
+        <div className="income__input-container">
+          <input
+            name="ammount"
+            id="ammount"
+            value={ammount}
+            onChange={(e) =>
+              dispatch({ type: "setAmmount", payload: e.target.value })
+            }
+            type="number"
+            placeholder=""
+          />
+          <label htmlFor="ammount">Cantidad</label>
+        </div>
+        <div className="income__input-container">
+          <input
+            ref={categoryRef}
+            name="category"
+            id="category"
+            value={category}
+            onChange={(e) => e.preventDefault()}
+            type="text"
+            onFocus={() => dispatch({ type: "openModal" })}
+            autoComplete="off"
+            placeholder=""
+          />
+          <label htmlFor="category">Categoría</label>
+        </div>
+        <div className="income__input-container">
+          <textarea
+            name="description"
+            id="description"
+            value={description}
+            onChange={(e) =>
+              dispatch({ type: "setDescription", payload: e.target.value })
+            }
+            rows={2}
+            placeholder=""
+          />
+          <label htmlFor="description">Descripción</label>
+        </div>
         <BtnRegister />
       </form>
       <Modal
