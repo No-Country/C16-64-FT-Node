@@ -30,6 +30,6 @@ export class Category extends Model {
   @Column({ type: DataType.TEXT })
   typeCategory: typeExpenses;
 
-  @HasMany(() => Expenses)
-  expenses: Expenses;
+  @HasMany(() => Expenses, { as: 'expenses' })
+  expenses: Expenses[];
 }

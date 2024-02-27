@@ -12,7 +12,14 @@ const options: SequelizeOptions = {
 const useFactory = async () => {
   const sequelize = new Sequelize(DATABASE_URL, options);
   sequelize.addModels([User, Profile, Expenses, Category]);
-  await sequelize.sync();
+  await sequelize
+    .sync()
+    .then(() => {
+      console.log('Modelos sincronizados correctamente');
+    })
+    .catch(error => {
+      console.error('Error al sincronizar modelos:', error);
+    });
   return sequelize;
 };
 

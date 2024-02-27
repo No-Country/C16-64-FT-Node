@@ -62,6 +62,6 @@ export class Expenses extends Model implements ExpensesAtributes {
   @Column({ type: DataType.INTEGER, field: 'categoryId' })
   categoryId: number;
 
-  @BelongsTo(() => User)
+  @BelongsTo(() => User, { as: 'category' })
   category: Category;
 }

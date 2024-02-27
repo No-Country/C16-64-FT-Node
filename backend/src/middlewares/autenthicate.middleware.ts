@@ -16,7 +16,8 @@ export class AuthenticateMiddleware implements NestMiddleware {
   async use(req: Request, res: Response, next: NextFunction) {
     try {
       const { demo } = req.query;
-      if (demo) {
+      const _demo = demo === 'true' ? true : false;
+      if (_demo) {
         const user = await User.findOne({
           where: { username: 'demo' },
           attributes: { exclude: ['createdAt', 'updatedAt'] },
@@ -38,8 +39,8 @@ export class AuthenticateMiddleware implements NestMiddleware {
         const decodification = this.jwtServices.verify(token, {
           secret: this.secret,
         });
-        res.locals.userData = decodification.dataValues;
-        next({ patito: 'patito' });
+        res.locals.userData = decodification;
+        next();
       }
     } catch (error) {
       next(error);
