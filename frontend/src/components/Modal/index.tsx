@@ -1,14 +1,15 @@
+import "./index.module.scss";
 import React from "react";
 import { CATEGORIES } from "../FormDashboard/categories";
 import Icon from "@/components/Icon/Index";
 export default function Modal({
   selectedTab,
-  isModalOpen,
+  isCategoriesModalOpen,
   category,
   dispatch,
 }: any) {
   return (
-    <div className={`modal${isModalOpen ? " open" : ""}`}>
+    <div className={`modal${isCategoriesModalOpen ? " open" : ""}`}>
       <div className="modal__container">
         <div className="modal__header">Seleccione la categoría</div>
         <div className="modal__categories">
@@ -25,7 +26,7 @@ export default function Modal({
                         type: "setCategory",
                         payload: e.currentTarget.dataset.tab,
                       });
-                      dispatch({ type: "closeModal" });
+                      dispatch({ type: "closeCategoriesModal" });
                     }}
                   >
                     <svg>
@@ -38,13 +39,13 @@ export default function Modal({
           </div>
         </div>
         <div className="modal__actions">
-          <button onClick={() => dispatch({ type: "closeModal" })}>
+          <button onClick={() => dispatch({ type: "closeCategoriesModal" })}>
             Cancelar
           </button>
         </div>
         <button
           className="modal__close-btn"
-          onClick={() => dispatch({ type: "closeModal" })}
+          onClick={() => dispatch({ type: "closeCategoriesModal" })}
         >
           <Icon id="close" />
         </button>

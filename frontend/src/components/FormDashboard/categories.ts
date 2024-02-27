@@ -1,170 +1,142 @@
-import type { IconType } from "react-icons";
-import {
-  IoLogoUsd,
-  IoSwapHorizontalOutline,
-  IoBagCheckOutline,
-  IoHomeOutline,
-} from "react-icons/io5";
-
-interface ICategories {
+interface Category {
+  id: number;
   name: string;
-  type?: "INCOME" | "OUTCOME";
-  id: string | number;
-  icon?: IconType;
-  isIncome?: boolean;
+  description: string;
+  typeCategory: "OUTCOME" | "INCOME";
 }
 
-const CATEGORIES: ICategories[] = [
+const CATEGORIES: Category[] = [
   {
-    name: "Suscripciones",
-    type: "OUTCOME",
-    id: "subscriptions",
-    icon: IoLogoUsd,
-  },
-  {
-    name: "Publicidad",
-    type: "OUTCOME",
-    id: "publishing",
-    icon: IoLogoUsd,
-  },
-  {
-    name: "Compras",
-    type: "OUTCOME",
-    id: "shopping",
-    icon: IoLogoUsd,
-  },
-  {
-    name: "Servicios",
-    type: "OUTCOME",
-    id: "services",
-    icon: IoLogoUsd,
-  },
-  {
-    name: "Juegos",
-    type: "OUTCOME",
-    id: "games	",
-    icon: IoLogoUsd,
-  },
-  {
-    name: "Educación",
-    type: "OUTCOME",
-    id: "education",
-    icon: IoLogoUsd,
-  },
-  {
-    name: "Salud",
-    type: "OUTCOME",
-    id: "health",
-    icon: IoLogoUsd,
-  },
-  {
-    name: "Finanzas",
-    type: "OUTCOME",
-    id: "finances",
-    icon: IoLogoUsd,
-  },
-  {
-    name: "Viajes",
-    type: "OUTCOME",
-    id: "travel",
-    icon: IoLogoUsd,
-  },
-  {
-    name: "Estilo de vida",
-    type: "OUTCOME",
-    id: "lifeStyle",
-    icon: IoLogoUsd,
-  },
-  {
-    name: "Productividad",
-    type: "OUTCOME",
-    id: "productivity",
-    icon: IoLogoUsd,
-  },
-  {
-    name: "Entretenimiento",
-    type: "OUTCOME",
-    id: "entertainment",
-    icon: IoLogoUsd,
-  },
-  {
-    name: "Social",
-    type: "OUTCOME",
-    id: "social",
-    icon: IoLogoUsd,
-  },
-  {
-    name: "Noticias",
-    type: "OUTCOME",
-    id: "news",
-    icon: IoLogoUsd,
-  },
-  {
-    name: "Ejercicio",
-    type: "OUTCOME",
-    id: "exercise",
-    icon: IoLogoUsd,
-  },
-  {
-    name: "Música",
-    type: "OUTCOME",
-    id: "music",
-    icon: IoLogoUsd,
-  },
-  {
-    name: "Libros",
-    type: "OUTCOME",
-    id: "books",
-    icon: IoLogoUsd,
-  },
-  {
-    name: "Alquiler",
-    isIncome: false,
-    id: 4,
-    icon: IoHomeOutline,
-  },
-  {
-    name: "Supermercado",
-    isIncome: false,
-    id: 3,
-    icon: IoBagCheckOutline,
-  },
-  {
-    name: "Sueldo",
-    isIncome: true,
-    id: 2,
-    icon: IoLogoUsd,
-  },
-  {
-    name: "Transferencia",
-    isIncome: true,
     id: 1,
-    icon: IoSwapHorizontalOutline,
-  },
-  {
-    name: "Pagos",
-    type: "INCOME",
-    id: "finances",
-  },
-  {
-    name: "Regalos",
-    type: "INCOME",
-    id: "gift",
-  },
-  {
-    name: "Donaciones",
-    type: "INCOME",
-    id: "donations",
-  },
-  {
     name: "Salario",
-    type: "INCOME",
-    id: "finances",
+    description: "salary",
+    typeCategory: "INCOME",
   },
   {
+    id: 2,
     name: "Bonus",
-    type: "INCOME",
-    id: "ribbon",
+    description: "ribbon",
+    typeCategory: "INCOME",
+  },
+  {
+    id: 3,
+    name: "Suscripciones",
+    description: "subscriptions",
+    typeCategory: "OUTCOME",
+  },
+  {
+    id: 4,
+    name: "Publicidad",
+    description: "publishing",
+    typeCategory: "OUTCOME",
+  },
+  {
+    id: 5,
+    name: "Compras",
+    description: "shopping",
+    typeCategory: "OUTCOME",
+  },
+  {
+    id: 6,
+    name: "Servicios",
+    description: "services",
+    typeCategory: "OUTCOME",
+  },
+  {
+    id: 7,
+    name: "Juegos",
+    description: "games",
+    typeCategory: "OUTCOME",
+  },
+  {
+    id: 8,
+    name: "Educación",
+    description: "education",
+    typeCategory: "OUTCOME",
+  },
+  {
+    id: 9,
+    name: "Salud",
+    description: "health",
+    typeCategory: "OUTCOME",
+  },
+  {
+    id: 10,
+    name: "Finanzas",
+    description: "finances",
+    typeCategory: "OUTCOME",
+  },
+  {
+    id: 11,
+    name: "Viajes",
+    description: "travel",
+    typeCategory: "OUTCOME",
+  },
+  {
+    id: 12,
+    name: "Estilo de vida",
+    description: "lifeStyle",
+    typeCategory: "OUTCOME",
+  },
+  {
+    id: 13,
+    name: "Productividad",
+    description: "productivity",
+    typeCategory: "OUTCOME",
+  },
+  {
+    id: 14,
+    name: "Entretenimiento",
+    description: "entertainment",
+    typeCategory: "OUTCOME",
+  },
+  {
+    id: 15,
+    name: "Social",
+    description: "social",
+    typeCategory: "OUTCOME",
+  },
+  {
+    id: 16,
+    name: "Noticias",
+    description: "news",
+    typeCategory: "OUTCOME",
+  },
+  {
+    id: 17,
+    name: "Ejercicio",
+    description: "exercise",
+    typeCategory: "OUTCOME",
+  },
+  {
+    id: 18,
+    name: "Música",
+    description: "music",
+    typeCategory: "OUTCOME",
+  },
+  {
+    id: 19,
+    name: "Libros",
+    description: "books",
+    typeCategory: "OUTCOME",
+  },
+  {
+    id: 20,
+    name: "Ventas",
+    description: "sell",
+    typeCategory: "INCOME",
+  },
+  {
+    id: 21,
+    name: "Regalos",
+    description: "gift",
+    typeCategory: "INCOME",
+  },
+  {
+    id: 22,
+    name: "Donaciones",
+    description: "donations",
+    typeCategory: "INCOME",
   },
 ];
 

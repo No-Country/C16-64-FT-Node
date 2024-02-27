@@ -1,5 +1,9 @@
-import React, { useEffect, useReducer, useRef } from "react";
-import Modal from "../Modal";
+import React, {
+  useEffect,
+  useReducer,
+  useRef,
+  type KeyboardEventHandler,
+} from "react";
 import Tabs from "../Switch";
 
 const content = {
@@ -8,20 +12,29 @@ const content = {
   description: "Descripción:",
 };
 
+import { CATEGORIES } from "./categories";
+
 const initialState = {
+  isOpen: false,
   ammount: "",
   category: "",
   description: "",
-  isModalOpen: false,
+  isCategoriesModalOpen: false,
   selectedTab: "INCOME",
 };
 
 function reducer(state: any, action: any) {
   switch (action.type) {
+    case "toggleModal":
+      return { ...state, isOpen: !state.isOpen };
     case "closeModal":
-      return { ...state, isModalOpen: false };
+      return { ...state, isOpen: false };
     case "openModal":
-      return { ...state, isModalOpen: true };
+      return { ...state, isOpen: false };
+    case "closeCategoriesModal":
+      return { ...state, isCategoriesModalOpen: false };
+    case "openCategoriesModal":
+      return { ...state, isCategoriesModalOpen: true };
     case "setAmmount":
       return { ...state, ammount: action.payload };
     case "setCategory":
@@ -45,85 +58,107 @@ function reducer(state: any, action: any) {
 
 export default function FormDashboard() {
   const [
-    { ammount, category, description, isModalOpen, selectedTab },
+    {
+      isOpen,
+      ammount,
+      category,
+      description,
+      isCategoriesModalOpen,
+      selectedTab,
+    },
     dispatch,
   ] = useReducer(reducer, initialState);
-  const categoryRef = useRef<null | HTMLInputElement>(null);
 
   function handleKeyUp(e: any) {
     if (e.key === "Escape") {
-      dispatch({ type: "closeModal" });
+      dispatch({ type: "closeCategoriesModal" });
+    }
+  }
+
+  function validateNumberChange(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.code === "Slash") {
+      e.preventDefault();
     }
   }
 
   useEffect(() => {
     function handleKeyUpWrapper(e: any) {
       handleKeyUp(e);
-      categoryRef?.current?.blur();
     }
 
-    if (isModalOpen) {
+    if (isOpen) {
       document.addEventListener("keyup", handleKeyUpWrapper);
     }
 
     return () => {
       document.removeEventListener("keyup", handleKeyUpWrapper);
     };
-  }, [isModalOpen]);
+  }, [isOpen]);
 
   return (
-    <div className="form-container">
-      <form
-        action="#"
-        method="POST"
-        className="income"
-        onSubmit={(e) => e.preventDefault()}
-      >
-        <legend>Registro de Transacciones</legend>
-        <Tabs selectedTab={selectedTab} dispatch={dispatch} />
-        <label htmlFor="ammount">{content.amount}</label>
-        <input
-          name="ammount"
-          id="ammount"
-          value={ammount}
-          onChange={(e) =>
-            dispatch({ type: "setAmmount", payload: e.target.value })
-          }
-          type="number"
-          placeholder="1000000"
-        />
-        <label htmlFor="category">{content.category}</label>
-        <input
-          ref={categoryRef}
-          name="category"
-          id="category"
-          value={category}
-          onChange={(e) => e.preventDefault()}
-          type="text"
-          placeholder="Selecciona categoría"
-          onFocus={() => dispatch({ type: "openModal" })}
-          autoComplete="off"
-        />
-        <label htmlFor="description">{content.description}</label>
-        <textarea
-          name="description"
-          id="description"
-          value={description}
-          onChange={(e) =>
-            dispatch({ type: "setDescription", payload: e.target.value })
-          }
-          rows={2}
-        />
-        <button className="income__submit" type="submit">
-          Registrar
+    <>
+      <div className={`btn-container${isOpen ? " open" : ""}`}>
+        <button onClick={() => dispatch({ type: "toggleModal" })}>
+          {isOpen ? "Cancelar" : "Agregar transacción"}
         </button>
-      </form>
-      <Modal
-        isModalOpen={isModalOpen}
-        category={category}
-        selectedTab={selectedTab}
-        dispatch={dispatch}
-      />
-    </div>
+      </div>
+      <div className={`form-container${isOpen ? " open" : ""}`}>
+        <form
+          action="#"
+          method="POST"
+          className="income"
+          onSubmit={(e) => e.preventDefault()}
+        >
+          <Tabs selectedTab={selectedTab} dispatch={dispatch} />
+          <label htmlFor="ammount">{content.amount}</label>
+          <div className="input-icon">
+            <input
+              name="ammount"
+              id="ammount"
+              value={ammount}
+              onChange={(e) => {
+                dispatch({ type: "setAmmount", payload: e.target.value });
+              }}
+              onKeyDown={(e) => validateNumberChange(e)}
+              type="number"
+              placeholder="1000000"
+            />
+            <i>$</i>
+          </div>
+
+          <label htmlFor="category">{content.category}</label>
+          <select
+            name="category"
+            id="category"
+            value={category}
+            onChange={(e) =>
+              dispatch({ type: "setCategory", payload: e.target.value })
+            }
+          >
+            {CATEGORIES.map(
+              ({ typeCategory, name, id }) =>
+                typeCategory === selectedTab && (
+                  <option value={id} key={id}>
+                    {name}
+                  </option>
+                ),
+            )}
+          </select>
+          <label htmlFor="description">{content.description}</label>
+          <textarea
+            name="description"
+            id="description"
+            value={description}
+            onChange={(e) =>
+              dispatch({ type: "setDescription", payload: e.target.value })
+            }
+            rows={2}
+          />
+          <button className="income__submit" type="submit">
+            Registrar
+          </button>
+        </form>
+      </div>
+    </>
   );
 }
