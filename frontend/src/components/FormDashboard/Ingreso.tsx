@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef, useState } from "react";
+import React, { useEffect, useReducer, useRef } from "react";
 import Modal from "./Modal";
 import Tabs from "./Tabs";
 import BtnRegister from "./BtnRegister";
@@ -42,7 +42,7 @@ export default function Ingreso() {
     { ammount, category, description, isModalOpen, selectedTab },
     dispatch,
   ] = useReducer(reducer, initialState);
-  const categoryRef = useRef(null);
+  const categoryRef = useRef<HTMLInputElement | null>(null);
 
   function handleKeyUp(e: any) {
     if (e.key === "Escape") {
@@ -53,7 +53,9 @@ export default function Ingreso() {
   useEffect(() => {
     function handleKeyUpWrapper(e: any) {
       handleKeyUp(e);
-      categoryRef.current.blur();
+      if (categoryRef.current) {
+        categoryRef.current.blur();
+      }
     }
 
     if (isModalOpen) {

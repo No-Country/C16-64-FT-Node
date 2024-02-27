@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { CATEGORIES } from "./categories";
 import Icon from "@/components/Icon/Index";
 export default function Modal({
@@ -20,10 +20,10 @@ export default function Modal({
                     className={`categories__item${category === name ? " selected" : ""}`}
                     key={i}
                     data-tab={name}
-                    onClick={(e) => {
+                    onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                       dispatch({
                         type: "setCategory",
-                        payload: e.target.dataset.tab,
+                        payload: e.currentTarget.dataset.tab,
                       });
                       dispatch({ type: "closeModal" });
                     }}
