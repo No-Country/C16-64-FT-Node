@@ -21,8 +21,10 @@ export class ExpensesService {
     const filter = {};
     if (type) filter['type'] = type;
     if (date) {
-      const gmt = 0 * 60 * 60 * 1000;
-      const today = new Date(new Date(date).getTime() + gmt);
+      // const gmt = 0 * 60 * 60 * 1000;
+      const today = new Date(new Date(date).getTime());
+      console.log(new Date(today.setHours(0, 0, 0, 0)));
+      console.log(new Date(new Date(date).toUTCString()));
       filter['createdAt'] = {
         [Op.gte]: new Date(today.setHours(0, 0, 0, 0)),
         [Op.lt]: new Date(today.setHours(24, 0, 0, 0)),
