@@ -4,6 +4,8 @@ import styles from "./Index.module.scss";
 
 import { CATEGORIES } from "../FormDashboard/categories";
 
+export type TypeExpense = "INCOME" | "OUTCOME";
+
 export interface Expense {
   id: number;
   amount: number;
@@ -13,6 +15,11 @@ export interface Expense {
   categoryId: number;
   createdAt: Date;
   updatedAt: Date;
+}
+
+interface DoughnutChartProps {
+  type: string;
+  expenses: Expense[];
 }
 
 const COLORS = [
@@ -43,23 +50,14 @@ const COLORS = [
   "#637939",
 ];
 
-export default function DoughnutChart({ type = "INCOME" }) {
+export default function DoughnutChart({
+  type = "INCOME",
+  expenses,
+}: DoughnutChartProps) {
   const chart = useRef<HTMLCanvasElement>(null);
-  const [expenses, setExpenses] = useState<Expense[]>([]);
 
   useEffect(() => {
-    async function fetchData() {
-      const response = await fetch(
-        `https://backend-finance-managegr.onrender.com/api/v1/expenses?type=${type}&limit=10&offset=0&demo=true`,
-      );
-      const data = await response.json();
-      setExpenses(data);
-    }
-
-    fetchData();
-  }, [type]);
-
-  useEffect(() => {
+    console.log(expenses);
     if (chart.current && expenses.length) {
       const newExpenses = expenses.reduce(
         (acc: { [key: string]: number }, { categoryId, amount }) => {
@@ -88,7 +86,7 @@ export default function DoughnutChart({ type = "INCOME" }) {
             label: "Expenses",
             data: dataSet,
             backgroundColor,
-            borderColor: "#eae8d6",
+            borderColor: "#1f1f1b",
           },
         ],
       };

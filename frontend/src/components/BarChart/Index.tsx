@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./Index.module.scss";
 import Chart from "chart.js/auto";
-Chart.defaults.color = "#fff";
+Chart.defaults.color = "#1f1f1b";
 Chart.defaults.borderColor = "#58378d";
-Chart.defaults.backgroundColor = "#eae8d6";
+Chart.defaults.backgroundColor = "#1f1f1b";
 const DATA_COUNT = 7;
 const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
 const DAYS = ["Lun", "Mar", "Mie", "Jue", "Vie", "Sáb", "Dom"];
@@ -56,7 +56,7 @@ export default function BarChart({ isWeek = true }) {
             backgroundColor: "rgb(240, 62, 62)",
           },
         ],
-        borderColor: "#58378d",
+        borderColor: "#1f1f1b",
         borderWidth: 1,
       };
 
@@ -70,20 +70,8 @@ export default function BarChart({ isWeek = true }) {
   );
 
   return (
-    <div
-      className={styles.chartContainer}
-      style={{
-        minHeight: "350px",
-        width: "100%",
-        display: "flex",
-        justifyContent: "center",
-      }}
-    >
-      <canvas
-        style={{ width: "100%", minHeight: "350px", height: "100%" }}
-        id="chart"
-        ref={chart}
-      ></canvas>
+    <div className={styles.chartContainer}>
+      <canvas id="chart" ref={chart}></canvas>
     </div>
   );
 }

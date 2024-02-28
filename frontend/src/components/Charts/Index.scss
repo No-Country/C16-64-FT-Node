@@ -1,0 +1,37 @@
+.charts {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 20px;
+	max-width: 800px;
+	margin: 0 auto;
+
+	@apply py-8 px-4 shadow-md border rounded-md h-full sm:grid-cols-2;
+
+	&__title {
+		@apply text-2xl font-bold text-primary my-5;
+	}
+
+	&__item-main,
+	&__item {
+		background: linear-gradient(to bottom, var(--tw-gradient-stops));
+		@apply px-8 py-4 rounded-md shadow-lg;
+		--tw-gradient-from: hsl(
+				var(--myapp-primary-900) / var(--myapp-primary-opacity, 1)
+			)
+			var(--tw-gradient-from-position);
+		--tw-gradient-to: hsl(
+				var(--myapp-secondary-900) / var(--myapp-secondary-opacity, 1)
+			)
+			var(--tw-gradient-to-position);
+		--tw-gradient-stops: var(--tw-gradient-from) 50%, var(--tw-gradient-to);
+	}
+
+	&__item-main {
+		grid-column: 1 / -1;
+	}
+	&__item {
+		padding: 20px;
+		width: 100%;
+		height: 100%;
+	}
+}
