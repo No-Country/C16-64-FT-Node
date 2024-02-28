@@ -43,7 +43,7 @@ export class ExpensesController {
     name: 'offset',
     type: 'number',
     required: false,
-    example: '20',
+    example: '1',
     description: 'record skips',
   })
   @ApiQuery({
@@ -57,7 +57,7 @@ export class ExpensesController {
     name: 'date',
     type: 'string',
     required: false,
-    example: '2023-02-26',
+    example: '2024-02-26T05:00:00.000Z',
   })
   @ApiOperation({ summary: 'Show Expenses' })
   @ApiResponse({ status: 201, description: 'Usuario creado con éxito' })
