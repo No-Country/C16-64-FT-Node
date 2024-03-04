@@ -30,7 +30,7 @@ export class ExpensesService {
     }
     const findExpenses = await Expenses.findAll({
       where: { userId, ...filter },
-      order:["createdAt"],
+      order: ['createdAt'],
       limit,
       offset,
     });
@@ -58,6 +58,7 @@ export class ExpensesService {
       attributes: {
         exclude: ['createdAt', 'updatedAt', 'userId', 'description'],
       },
+      order: ['createdAt'],
       // include: [
       //   {
       //     model: Category,
