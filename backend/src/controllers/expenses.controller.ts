@@ -1,10 +1,12 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Next,
   Post,
+  Put,
   Query,
   Req,
   Res,
@@ -16,11 +18,15 @@ import {
   ApiBearerAuth,
   ApiBody,
   ApiOperation,
+  ApiParam,
   ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { CreateExpenseDto } from '../swagger/create-expense.dto';
+import {
+  CreateExpenseDto,
+  UpdateExpenseDto,
+} from '../swagger/create-expense.dto';
 import { typeExpenses } from '../types/types';
 
 @Controller('expenses')
@@ -138,6 +144,52 @@ export class ExpensesController {
       const { id: userId } = res.locals.userData;
       const query = await this.ExpensesService.create({ userId, ...body });
       res.status(HttpStatus.ACCEPTED).json(query);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  @ApiBearerAuth()
+  @ApiBody({ type: UpdateExpenseDto })
+  @ApiQuery({ name: 'demo', required: false, example: 'true' })
+  @ApiParam({ name: 'id', required: true, example: 7 })
+  @ApiOperation({ summary: 'Update Expenses' })
+  @ApiResponse({ status: 201, description: 'Usuario creado con éxito' })
+  @ApiResponse({ status: 400, description: 'Usuario no pudo ser creado' })
+  @Put(':id')
+  async updateExpense(
+    @Body() body: Omit<ExpensesAtributes, 'userId'>,
+    @Res() res: Response,
+    @Req() req: Request,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      const { id: userId } = res.locals.userData;
+      const { id } = req.params;
+      const query = await this.ExpensesService.update(+id, { userId, ...body });
+      res.status(HttpStatus.ACCEPTED).json(query);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  @ApiBearerAuth()
+  @ApiQuery({ name: 'demo', required: false, example: 'true' })
+  @ApiParam({ name: 'id', required: true, example: 7 })
+  @ApiOperation({ summary: 'Remove Expenses' })
+  @ApiResponse({ status: 201, description: 'Usuario creado con éxito' })
+  @ApiResponse({ status: 400, description: 'Usuario no pudo ser creado' })
+  @Delete(':id')
+  async deleteExpense(
+    @Res() res: Response,
+    @Req() req: Request,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      const { id: userId } = res.locals.userData;
+      const { id } = req.params;
+      const query = await this.ExpensesService.delete(+id, userId);
+      res.status(HttpStatus.NO_CONTENT).json(query);
     } catch (error) {
       next(error);
     }

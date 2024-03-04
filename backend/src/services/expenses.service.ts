@@ -3,7 +3,7 @@ import { Category, Expenses, User } from '../entity';
 import { ExpensesAtributes } from '../types/form.types.';
 import ServerError from '../utils/serverError';
 import { ExpensesFilter } from '../types/types';
-import { Op } from 'sequelize';
+import { Op, where } from 'sequelize';
 
 @Injectable()
 export class ExpensesService {
@@ -23,8 +23,6 @@ export class ExpensesService {
     if (date) {
       const gmt = 24 * 60 * 60 * 1000;
       const today = new Date(date).getTime();
-      console.log(new Date(today));
-      console.log(new Date(today + gmt));
       filter['createdAt'] = {
         [Op.gte]: new Date(today),
         [Op.lt]: new Date(today + gmt),
@@ -32,6 +30,7 @@ export class ExpensesService {
     }
     const findExpenses = await Expenses.findAll({
       where: { userId, ...filter },
+      order:["createdAt"],
       limit,
       offset,
     });
@@ -86,5 +85,23 @@ export class ExpensesService {
       userId,
     });
     return createExpenses;
+  }
+
+  public async update(
+    id: Expenses['id'],
+    { amount, categoryId, description }: ExpensesAtributes,
+  ) {
+    if (!id) throw new ServerError('Opps id invalido', 'BAD_REQUEST');
+    const updateExpenses = await Expenses.update(
+      { amount, categoryId, description },
+      { where: { id } },
+    );
+    return updateExpenses;
+  }
+
+  public async delete(id: Expenses['id'], userId: Expenses['userId']) {
+    if (!id) throw new ServerError('Opps id invalido', 'BAD_REQUEST');
+    const deleteExpenses = await Expenses.destroy({ where: { id, userId } });
+    return deleteExpenses;
   }
 }
