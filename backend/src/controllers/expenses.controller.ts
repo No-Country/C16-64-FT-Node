@@ -29,8 +29,8 @@ import {
 } from '../swagger/create-expense.dto';
 import { typeExpenses } from '../types/types';
 
-@Controller('transaccions')
-@ApiTags('transaccions')
+@Controller('transactions')
+@ApiTags('transactions')
 export class ExpensesController {
   private ExpensesService: ExpensesService;
   constructor(ExpensesService: ExpensesService) {
