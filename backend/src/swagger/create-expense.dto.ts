@@ -33,6 +33,13 @@ export class CreateExpenseDto implements ExpensesAtributes {
 
   userId: number;
 
+  @ApiProperty({
+    example: '2024-02-26T05:00:00.000Z',
+    description: 'Fecha',
+    required: false,
+  })
+  createdAt?: Date;
+
   // username: string;
 
   // @ApiProperty({
@@ -78,6 +85,13 @@ export class UpdateExpenseDto {
     required: true,
   })
   categoryId: number;
+
+  @ApiProperty({
+    example: '2024-02-26T05:00:00.000Z',
+    description: 'Fecha',
+    required: false,
+  })
+  updatedAt?: Date;
 
   // username: string;
 

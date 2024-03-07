@@ -56,9 +56,10 @@ export class ExpensesService {
     const findExpenses = await Expenses.findAll({
       where: { userId, ...filter },
       attributes: {
-        exclude: ['createdAt', 'updatedAt', 'userId', 'description'],
+        exclude: ['userId', 'description'],
       },
       order: ['createdAt'],
+      include: [{ model: User, as: 'user', attributes: ['username'] }],
       // include: [
       //   {
       //     model: Category,
@@ -76,25 +77,36 @@ export class ExpensesService {
     type,
     userId,
     categoryId,
+    createdAt: _createdAt,
   }: ExpensesAtributes) {
     const categoryid = 1;
+    const createdAt = _createdAt ? _createdAt : new Date();
+
     const createExpenses = await Expenses.create({
       amount,
       categoryId: categoryId ? categoryId : categoryid,
       description,
       type,
       userId,
+      createdAt,
+      updatedAt: createdAt,
     });
     return createExpenses;
   }
 
   public async update(
     id: Expenses['id'],
-    { amount, categoryId, description }: ExpensesAtributes,
+    {
+      amount,
+      categoryId,
+      description,
+      createdAt: _createdAt,
+    }: ExpensesAtributes,
   ) {
+    const updatedAt = _createdAt ? _createdAt : new Date();
     if (!id) throw new ServerError('Opps id invalido', 'BAD_REQUEST');
     const updateExpenses = await Expenses.update(
-      { amount, categoryId, description },
+      { amount, categoryId, description, updatedAt },
       { where: { id } },
     );
     return updateExpenses;

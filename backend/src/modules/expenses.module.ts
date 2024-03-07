@@ -9,6 +9,6 @@ import { AuthenticateMiddleware } from '../middlewares/autenthicate.middleware';
 })
 export class ExpensesModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthenticateMiddleware).forRoutes('/expenses');
+    consumer.apply(AuthenticateMiddleware).forRoutes('/transaccions');
   }
 }

@@ -22,7 +22,7 @@ enum TypeExpenses {
   EXPENDITURE,
 }
 
-@Table
+@Table({ timestamps: false })
 export class Expenses extends Model implements ExpensesAtributes {
   @PrimaryKey
   @AllowNull
@@ -44,6 +44,14 @@ export class Expenses extends Model implements ExpensesAtributes {
   description: string;
 
   @AllowNull
+  @Column({ type: DataType.DATE })
+  createdAt: Date;
+
+  @AllowNull
+  @Column({ type: DataType.DATE })
+  updatedAt: Date;
+
+  @AllowNull
   @Validate({
     isIn: { args: [['INCOME', 'OUTCOME']], msg: 'Type value not allowed' },
   })
@@ -62,6 +70,6 @@ export class Expenses extends Model implements ExpensesAtributes {
   @Column({ type: DataType.INTEGER, field: 'categoryId' })
   categoryId: number;
 
-  @BelongsTo(() => User, { as: 'category' })
-  category: Category;
+  @BelongsTo(() => User, { as: 'user' })
+  user: User;
 }

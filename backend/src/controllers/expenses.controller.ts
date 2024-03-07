@@ -29,8 +29,8 @@ import {
 } from '../swagger/create-expense.dto';
 import { typeExpenses } from '../types/types';
 
-@Controller('expenses')
-@ApiTags('expenses')
+@Controller('transaccions')
+@ApiTags('transaccions')
 export class ExpensesController {
   private ExpensesService: ExpensesService;
   constructor(ExpensesService: ExpensesService) {
@@ -65,7 +65,7 @@ export class ExpensesController {
     required: false,
     example: '2024-02-26T05:00:00.000Z',
   })
-  @ApiOperation({ summary: 'Show Expenses' })
+  @ApiOperation({ summary: 'Show Transaccions' })
   @ApiResponse({ status: 201, description: 'Usuario creado con éxito' })
   @ApiResponse({ status: 400, description: 'Usuario no pudo ser creado' })
   @Get()
@@ -106,7 +106,7 @@ export class ExpensesController {
     required: false,
     example: '2023-02-26',
   })
-  @ApiOperation({ summary: 'Show Expenses By Date' })
+  @ApiOperation({ summary: 'Show Transaccions By Date' })
   @ApiResponse({ status: 201, description: 'Usuario creado con éxito' })
   @ApiResponse({ status: 400, description: 'Usuario no pudo ser creado' })
   @Get('reports')
@@ -131,7 +131,7 @@ export class ExpensesController {
   @ApiBearerAuth()
   @ApiBody({ type: CreateExpenseDto })
   @ApiQuery({ name: 'demo', required: false, example: 'true' })
-  @ApiOperation({ summary: 'Register Expenses' })
+  @ApiOperation({ summary: 'Register Transaccions' })
   @ApiResponse({ status: 201, description: 'Usuario creado con éxito' })
   @ApiResponse({ status: 400, description: 'Usuario no pudo ser creado' })
   @Post()
@@ -142,7 +142,13 @@ export class ExpensesController {
   ) {
     try {
       const { id: userId } = res.locals.userData;
-      const query = await this.ExpensesService.create({ userId, ...body });
+      const { createdAt: _createdAt, ...data } = body;
+      const createdAt = _createdAt ? new Date(_createdAt) : undefined;
+      const query = await this.ExpensesService.create({
+        userId,
+        createdAt,
+        ...data,
+      });
       res.status(HttpStatus.ACCEPTED).json(query);
     } catch (error) {
       next(error);
@@ -153,7 +159,7 @@ export class ExpensesController {
   @ApiBody({ type: UpdateExpenseDto })
   @ApiQuery({ name: 'demo', required: false, example: 'true' })
   @ApiParam({ name: 'id', required: true, example: 7 })
-  @ApiOperation({ summary: 'Update Expenses' })
+  @ApiOperation({ summary: 'Update Transaccions' })
   @ApiResponse({ status: 201, description: 'Usuario creado con éxito' })
   @ApiResponse({ status: 400, description: 'Usuario no pudo ser creado' })
   @Put(':id')
@@ -166,7 +172,13 @@ export class ExpensesController {
     try {
       const { id: userId } = res.locals.userData;
       const { id } = req.params;
-      const query = await this.ExpensesService.update(+id, { userId, ...body });
+      const { createdAt: _createdAt, ...data } = body;
+      const createdAt = _createdAt ? new Date(_createdAt) : undefined;
+      const query = await this.ExpensesService.update(+id, {
+        userId,
+        createdAt,
+        ...data,
+      });
       res.status(HttpStatus.ACCEPTED).json(query);
     } catch (error) {
       next(error);
@@ -176,7 +188,7 @@ export class ExpensesController {
   @ApiBearerAuth()
   @ApiQuery({ name: 'demo', required: false, example: 'true' })
   @ApiParam({ name: 'id', required: true, example: 7 })
-  @ApiOperation({ summary: 'Remove Expenses' })
+  @ApiOperation({ summary: 'Remove Transaccions' })
   @ApiResponse({ status: 201, description: 'Usuario creado con éxito' })
   @ApiResponse({ status: 400, description: 'Usuario no pudo ser creado' })
   @Delete(':id')

@@ -24,4 +24,5 @@ export interface ExpensesAtributes {
   type: typeExpenses;
   categoryId: number;
   userId: number;
+  createdAt?: Date;
 }
