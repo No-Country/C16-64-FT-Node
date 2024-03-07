@@ -1,7 +1,8 @@
 import { queryString } from "@/utils/queryParams";
 
 class Transactions {
-  static URL = "https://backend-finance-managegr.onrender.com/api/v1/expenses";
+  static URL =
+    "https://backend-finance-managegr.onrender.com/api/v1/transactions";
 
   async fetchPaginatedData(params: {
     accessToken?: string;
