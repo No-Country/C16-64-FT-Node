@@ -30,7 +30,7 @@ export class ExpensesService {
     }
     const findExpenses = await Expenses.findAll({
       where: { userId, ...filter },
-      order: ['createdAt'],
+      order: [['createdAt','DESC']],
       limit,
       offset,
     });
